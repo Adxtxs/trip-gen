@@ -8,9 +8,11 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import Login from './components/login';
+import HomePage from './components/home';
 import SignUp from './components/signup';
 import Navbar from './components/navbar';
 import reportWebVitals from './reportWebVitals';
+import TravelForm from './components/create-itinerary';
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<SignUp/>} />
+        <Route path="/" element={<HomePage/>} />
+        <Route path="/createItinerary" element={<TravelForm/>} />
       </Routes>
     </Router>
   );
