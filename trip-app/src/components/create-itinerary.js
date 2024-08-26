@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
 import { TextField, Box, Card, CardContent, Typography, Grid } from '@mui/material';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import '../create-itinerary.css';
 
 function TravelForm() {
-  const [destination, setDestination] = useState('');
   const [budget, setBudget] = useState('');
   const [companions, setCompanions] = useState('');
+  const [country, setCountry] = useState('');
+  const [region, setRegion] = useState('');
+  const [city, setCity] = useState('');
+
 
   const handleBudgetChange = (budgetOption) => {
     setBudget(budgetOption);
@@ -14,9 +23,12 @@ function TravelForm() {
     setCompanions(companionsOption);
   };
 
+  const handleCityChange = (e) => {
+    setCity(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Destination:', destination);
     console.log('Budget:', budget);
     console.log('Travel Companions:', companions);
   };
@@ -27,15 +39,45 @@ function TravelForm() {
         Plan Your Trip
       </Typography>
 
-      {/* Destination Field */}
-      <TextField
-        label="Destination"
-        variant="outlined"
-        fullWidth
-        value={destination}
-        onChange={(e) => setDestination(e.target.value)}
-        margin="normal"
+    <Typography variant="h6" component="h2" gutterBottom>
+      Destination
+    </Typography>
+
+    <div className="dropdown-container">
+      <CountryDropdown
+        value={country}
+        onChange={(val) => setCountry(val)}
+        className="custom-dropdown"
       />
+      <RegionDropdown
+        country={country}
+        value={region}
+        onChange={(val) => setRegion(val)}
+        className="custom-dropdown"
+      />
+      <div>
+        <input
+          type="text"
+          id="city"
+          value={city}
+          onChange={handleCityChange}
+          placeholder="Enter city name"
+          className="custom-dropdown"
+        />
+      </div>
+
+    </div>
+
+      <Typography variant="h6" component="h2" gutterBottom>
+        Date Range
+      </Typography>
+
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DemoContainer components={['DateRangePicker']}>
+          <DateRangePicker localeText={{ start: 'Check-in', end: 'Check-out' }} />
+        </DemoContainer>
+      </LocalizationProvider>
+
 
       {/* Budget Selection */}
       <Typography variant="h6" component="h2" gutterBottom>

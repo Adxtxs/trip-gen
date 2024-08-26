@@ -1,0 +1,26 @@
+/* styles.css */
+
+/* Container for the dropdowns */
+.dropdown-container {
+    display: flex;
+    gap: 1rem; /* Adjust spacing between dropdowns */
+  }
+  
+  /* Custom styling for the dropdowns */
+  .custom-dropdown {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: inherit;
+    color: inherit;
+    /* Add any other styles you'd like */
+  }
+  
+  /* Hover effect */
+  .custom-dropdown:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+  }
+  
