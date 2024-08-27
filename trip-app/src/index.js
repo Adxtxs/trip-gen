@@ -13,7 +13,7 @@ import SignUp from './components/signup';
 import Navbar from './components/navbar';
 import reportWebVitals from './reportWebVitals';
 import TravelForm from './components/create-itinerary';
-
+import DisplayItinerary from './components/display-itinerary';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,6 +30,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/" element={<HomePage/>} />
         <Route path="/createItinerary" element={<TravelForm/>} />
+        <Route path="/displayItinerary" element={<DisplayItinerary/>} />
       </Routes>
     </Router>
   );

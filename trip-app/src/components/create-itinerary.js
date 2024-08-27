@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Box, Card, CardContent, Typography, Grid } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers-pro/LocalizationProvider';
@@ -6,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import '../create-itinerary.css';
+import axios from 'axios';
 
 function TravelForm() {
   const [budget, setBudget] = useState('');
@@ -27,10 +29,28 @@ function TravelForm() {
     setCity(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Budget:', budget);
-    console.log('Travel Companions:', companions);
+    const requestBody = {
+      contents: [
+          {
+              parts: [
+                  {
+                      text: `Create a personalized itinerary for a trip from  to ${city}, in the ${region} region of country ${country} with a ${budget} budget. I'm traveling ${companions=="Solo"?"":"with"} ${companions} . Please suggest accommodations, dining options and activities that are suitable for our budget. Make sure that you include the Google Maps links to all the hotels, resorts, and activity places that you are mentioning. Also provide the data in a key value pair format only. Like - Day1: some content, Day2: some content and so on. Also for each day I want you to provide Morning: some content, Afternoon: some content and Evening: some content format. Also first provide the itinerary in this format and do not provide any other data before or after this. The data must only be for day wise that's it`
+                  }
+              ]
+          }
+      ]
+    };
+    try {
+      const response = await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDDJApZR5HKhrkMFv989ZZU-9HpA51cxb8', requestBody);
+      const itineraryText = response.data;
+      navigate('/displayItinerary', { state: { itineraryText } });
+    } catch (error) {
+        console.error('Error fetching itinerary:', error);
+    }
   };
 
   return (
